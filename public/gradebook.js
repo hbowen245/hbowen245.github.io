@@ -10,7 +10,7 @@ function fetchGradeData() {
   xhr.onreadystatechange = function (){
     let results;
     //Check if we're done
-    if(xhr.readyState === xhr.Done){
+    if(xhr.readyState === xhr.DONE){
       //Check if we're successful
       if(xhr.status !== 200){
         console.error(`Could not get grades.
@@ -49,9 +49,3 @@ function populateGradebook(data) {
       tableElm.appendChild(row);
     });
 }
-
-// TODO REMOVE THIS
-// Call the stubs to demonstrate the workflow
-const gradeData = fetchGradeData();
-populateGradebook(gradeData);
-// END REMOVE
