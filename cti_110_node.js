@@ -30,11 +30,16 @@ app.use("/", router);
 
 router.get('/api/grades',function(req, res){
     pool.query(
-        `SELECT Students.student_id, first_name, last_name, AVG(assignments.grade) as total_grade \
-            FROM Students  \
-            LEFT JOIN Assignments ON Assignments.student_id = Students.student_id \
-            GROUP BY Students.student_id \
-            ORDER BY total_grade DESC`,
+        `SELECT 
+    s.first_name,
+    s.last_name,
+    MAX(CASE WHEN a.title = 'Assignment 1' THEN a.grade END) AS assignment_1,
+    MAX(CASE WHEN a.title = 'Assignment 2' THEN a.grade END) AS assignment_2,
+    MAX(CASE WHEN a.title = 'Assignment 3' THEN a.grade END) AS assignment_3
+FROM students s
+LEFT JOIN assignments a ON a.student_id = s.student_id
+GROUP BY s.first_name, s.last_name
+ORDER BY s.last_name ASC`
         [],
         function( err, result){
             if(err)
